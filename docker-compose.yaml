@@ -1,0 +1,24 @@
+version: '3.7'
+
+volumes:
+  postgres:
+
+services:
+  postgres:
+    container_name: course_db
+    image: postgres
+    environment:
+      POSTGRES_USER: postgresql
+      POSTGRES_PASSWORD: postgresql
+      PGDATA: /var/lib/postgresql/data
+    volumes:
+        - postgresql:/var/lib/postgresql/data
+        - .:/db_data
+    ports:
+        - 1000:5432
+    networks:
+        - my_persistent_network
+
+networks:
+  my_persistent_network:
+    driver: bridge

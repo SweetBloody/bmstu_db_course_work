@@ -2,7 +2,6 @@ package postgresql
 
 import (
 	"app/internal/pkg/models"
-	"fmt"
 	"github.com/jmoiron/sqlx"
 )
 
@@ -26,7 +25,7 @@ func (pgRepo *psqlDriverRepository) GetAll() ([]*models.Driver, error) {
 	}
 	for rows.Next() {
 		driver := &models.Driver{}
-		err := rows.StructScan(&driver)
+		err = rows.StructScan(&driver)
 		if err != nil {
 			return nil, err
 		}
@@ -44,10 +43,53 @@ func (pgRepo *psqlDriverRepository) GetDriverById(id int) (*models.Driver, error
 			"where driver_id = $1",
 		id)
 	if err != nil {
-		fmt.Println(err)
 		return nil, err
 	}
 	return driver, nil
+}
+
+func (pgRepo *psqlDriverRepository) GetDriversOfSeason(season int) ([]*models.Driver, error) {
+	drivers := []*models.Driver{}
+	rows, err := pgRepo.db.Queryx(
+		"select d.driver_id, driver_name, driver_country, driver_birth_date "+
+			"from drivers d "+
+			"join teamsdrivers t on d.driver_id = t.driver_id "+
+			"where team_driver_season = $1",
+		season)
+	if err != nil {
+		return nil, err
+	}
+	for rows.Next() {
+		driver := &models.Driver{}
+		err = rows.StructScan(&driver)
+		if err != nil {
+			return nil, err
+		}
+		drivers = append(drivers, driver)
+	}
+	return drivers, nil
+}
+
+func (pgRepo *psqlDriverRepository) GetDriversStanding() ([]*models.Standings, error) {
+	standings := []*models.Standings{}
+	rows, err := pgRepo.db.Queryx(
+		"select st_id, season, driver_name, team_name, score " +
+			"from season_standings s " +
+			"join drivers d on s.driver_id = d.driver_id " +
+			"join teams t on s.team_id = t.team_id " +
+			"order by score desc")
+	if err != nil {
+		return nil, err
+	}
+	for rows.Next() {
+		temp := &models.Standings{}
+		err = rows.StructScan(&temp)
+		if err != nil {
+			return nil, err
+		}
+		standings = append(standings, temp)
+	}
+	return standings, nil
 }
 
 func (pgRepo *psqlDriverRepository) Create(driver *models.Driver) (int, error) {
@@ -77,7 +119,6 @@ func (pgRepo *psqlDriverRepository) Update(newDriver *models.Driver) error {
 		newDriver.Country,
 		newDriver.BirthDate,
 		newDriver.ID)
-	fmt.Println("errrr === ", err)
 	if err != nil {
 		return err
 	}
@@ -89,6 +130,20 @@ func (pgRepo *psqlDriverRepository) Delete(id int) error {
 		"delete from drivers "+
 			"where driver_id = $1",
 		id)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (pgRepo *psqlDriverRepository) LinkDriverTeam(new *models.DriversTeams) error {
+	_, err := pgRepo.db.Exec(
+		"insert into teamsdrivers (driver_id, team_id, team_driver_season) "+
+			"values ($1, $2, $3)",
+		new.DriverId,
+		new.TeamId,
+		new.Season,
+	)
 	if err != nil {
 		return err
 	}

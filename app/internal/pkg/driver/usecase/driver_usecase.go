@@ -31,6 +31,22 @@ func (uc *driverUsecase) GetDriverById(id int) (*models.Driver, error) {
 	return driver, nil
 }
 
+func (uc *driverUsecase) GetDriversOfSeason(season int) ([]*models.Driver, error) {
+	drivers, err := uc.driverRepo.GetDriversOfSeason(season)
+	if err != nil {
+		return nil, err
+	}
+	return drivers, nil
+}
+
+func (uc *driverUsecase) GetDriversStanding() ([]*models.Standings, error) {
+	standings, err := uc.driverRepo.GetDriversStanding()
+	if err != nil {
+		return nil, err
+	}
+	return standings, nil
+}
+
 func (uc *driverUsecase) Create(driver *models.Driver) (int, error) {
 	id, err := uc.driverRepo.Create(driver)
 	if err != nil {
@@ -50,6 +66,14 @@ func (uc *driverUsecase) Update(id int, newDriver *models.Driver) error {
 
 func (uc *driverUsecase) Delete(id int) error {
 	err := uc.driverRepo.Delete(id)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (uc *driverUsecase) LinkDriverTeam(new *models.DriversTeams) error {
+	err := uc.driverRepo.LinkDriverTeam(new)
 	if err != nil {
 		return err
 	}

@@ -1,0 +1,70 @@
+<mxfile host="Electron" modified="2023-04-15T22:46:10.611Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.1.2 Chrome/106.0.5249.199 Electron/21.4.3 Safari/537.36" etag="lmRZGo0I5q8izPs0-iZ-" version="21.1.2" type="device">
+  <diagram name="Page-1" id="swZhNCeiyRr0BJqZTSv-">
+    <mxGraphModel dx="799" dy="600" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="plIs9T70Kp8YXK5Y08mu-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="plIs9T70Kp8YXK5Y08mu-2" target="plIs9T70Kp8YXK5Y08mu-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="plIs9T70Kp8YXK5Y08mu-2" value="Начало" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.terminator;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="290" y="80" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="plIs9T70Kp8YXK5Y08mu-3" value="" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.annotation_2;align=left;labelPosition=right;pointerEvents=1;" vertex="1" parent="1">
+          <mxGeometry x="410" y="40" width="50" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="plIs9T70Kp8YXK5Y08mu-4" value="Функция обновления количества очков пилота в таблице личного зачета" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="440" y="40" width="220" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="plIs9T70Kp8YXK5Y08mu-5" value="Вход: driver_id - id пилота&lt;br&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;	&lt;/span&gt;&amp;nbsp;&amp;nbsp;place - место, которое занял &lt;span style=&quot;white-space: pre;&quot;&gt;	&lt;/span&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;	&lt;/span&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; пилот в гонке" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="440" y="80" width="220" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="plIs9T70Kp8YXK5Y08mu-6" value="Выход: обновленная таблица личного &lt;span style=&quot;white-space: pre;&quot;&gt;	&lt;/span&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp;зачета" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="440" y="130" width="220" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="plIs9T70Kp8YXK5Y08mu-9" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="plIs9T70Kp8YXK5Y08mu-7" target="plIs9T70Kp8YXK5Y08mu-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="plIs9T70Kp8YXK5Y08mu-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="plIs9T70Kp8YXK5Y08mu-7" target="plIs9T70Kp8YXK5Y08mu-12">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="240" y="400" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="270" y="230" />
+              <mxPoint x="270" y="370" />
+              <mxPoint x="350" y="370" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="plIs9T70Kp8YXK5Y08mu-7" value="place &amp;lt; 11" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="310" y="190" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="plIs9T70Kp8YXK5Y08mu-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="plIs9T70Kp8YXK5Y08mu-8" target="plIs9T70Kp8YXK5Y08mu-12">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="470" y="370" />
+              <mxPoint x="350" y="370" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="plIs9T70Kp8YXK5Y08mu-8" value="score += x&lt;br&gt;(где x - количество баллов за соответствующее место)" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="400" y="270" width="140" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="plIs9T70Kp8YXK5Y08mu-10" value="Да" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="380" y="200" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="plIs9T70Kp8YXK5Y08mu-16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="plIs9T70Kp8YXK5Y08mu-12" target="plIs9T70Kp8YXK5Y08mu-15">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="plIs9T70Kp8YXK5Y08mu-12" value="Обновленная таблица" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;" vertex="1" parent="1">
+          <mxGeometry x="290" y="400" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="plIs9T70Kp8YXK5Y08mu-15" value="Конец" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.terminator;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="290" y="490" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="plIs9T70Kp8YXK5Y08mu-18" value="1 место - 25 баллов&lt;br&gt;2 место - 18 баллов&lt;br&gt;3 место - 15 баллов&lt;br&gt;4 место - 12 баллов&lt;br&gt;5 место - 10 баллов&lt;br&gt;6 место - 8 баллов&lt;br&gt;7 место - 6 баллов&lt;br&gt;8 место - 4 балла&lt;br&gt;9 место - 2 балла&lt;br&gt;10 место - 1 балл" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="585" y="240" width="120" height="160" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

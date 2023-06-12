@@ -70,10 +70,42 @@ create table public.Users(
     user_id serial not null primary key,
     login text not null,
     password text not null,
-    role int not null
+    role text not null
 );
 
+drop table if exists season_standings cascade;
+create table public.season_standings(
+    st_id serial not null primary key,
+    season int not null,
+    driver_id int not null,
+    team_id int not null,
+    score int not null
+);
 
+drop view if exists race_results_view cascade;
+create view race_results_view as
+    select race_id, race_driver_place, driver_name, team_name, gp_name
+    from raceresults r
+    join drivers d on r.driver_id = d.driver_id
+    join grandprix g on r.gp_id = g.gp_id
+    join teams t on r.team_id = t.team_id
+    where race_driver_place = 1;
+
+drop view if exists drivers_of_season cascade;
+create view drivers_of_season as
+    select d.driver_id, driver_name, driver_country, driver_birth_date
+    from drivers d
+    join teamsdrivers t on d.driver_id = t.driver_id
+    where team_driver_season = 2022;
+
+drop table if exists RaceResultsTmp cascade;
+create table public.RaceResultsTmp(
+    race_id serial not null primary key,
+    race_driver_place int,
+    driver_id int not null,
+    team_id int not null,
+    gp_id int not null
+);
 
 set datestyle to 'dmy';
 alter table GrandPrix add foreign key (gp_track_id) references public.Tracks(track_id);
@@ -81,5 +113,7 @@ alter table QualificationResults add foreign key (gp_id) references public.Grand
 alter table RaceResults add foreign key (gp_id) references public.GrandPrix(gp_id);
 alter table TeamsDrivers add foreign key (driver_id) references public.Drivers(driver_id);
 alter table TeamsDrivers add foreign key (team_id) references public.Teams(team_id);
+alter table season_standings add foreign key (driver_id) references public.Drivers(driver_id);
+alter table season_standings add foreign key (team_id) references public.Teams(team_id);
 -- alter table TeamsDrivers add primary key (driver_id, team_id);
 

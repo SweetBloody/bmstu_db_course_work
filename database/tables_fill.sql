@@ -20,7 +20,7 @@ copy public.qualificationresults(qual_driver_place,
                                  gp_id)
 from '/db_data/database/data/qualifications.csv' delimiter ';' CSV;
 
-copy public.raceresults(race_driver_place,
+copy public.raceresultstmp(race_driver_place,
                         driver_id,
                         team_id,
                         gp_id)

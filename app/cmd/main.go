@@ -1,13 +1,34 @@
 package main
 
 import (
-	driverHandler "app/internal/pkg/driver/delivery/http"
-	driverRepository "app/internal/pkg/driver/repository/postgresql"
 	"fmt"
 	"log"
 	"net/http"
 
+	authHandler "app/internal/pkg/auth/delivery/http"
+	driverHandler "app/internal/pkg/driver/delivery/http"
+	grandPrixHandler "app/internal/pkg/grand_prix/delivery/http"
+	qualHandler "app/internal/pkg/qual_result/delivery/http"
+	raceHandler "app/internal/pkg/race_result/delivery/http"
+	teamHandler "app/internal/pkg/team/delivery/http"
+	trackHandler "app/internal/pkg/track/delivery/http"
+	userHandler "app/internal/pkg/user/delivery/http"
+
+	driverRepository "app/internal/pkg/driver/repository/postgresql"
+	grandPrixRepository "app/internal/pkg/grand_prix/repository/postgresql"
+	qualRepository "app/internal/pkg/qual_result/repository/postgresql"
+	raceRepository "app/internal/pkg/race_result/repository/postgresql"
+	teamRepository "app/internal/pkg/team/repository/postgresql"
+	trackRepository "app/internal/pkg/track/repository/postgresql"
+	userRepository "app/internal/pkg/user/repository/postgresql"
+
 	driverUsecase "app/internal/pkg/driver/usecase"
+	grandPrixUsecase "app/internal/pkg/grand_prix/usecase"
+	qualUsecase "app/internal/pkg/qual_result/usecase"
+	raceUsecase "app/internal/pkg/race_result/usecase"
+	teamUsecase "app/internal/pkg/team/usecase"
+	trackUsecase "app/internal/pkg/track/usecase"
+	userUsecase "app/internal/pkg/user/usecase"
 
 	middleware "app/internal/app/middleware"
 
@@ -15,28 +36,6 @@ import (
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
 )
-
-//type Driver struct {
-//	DriverId        int    `db:"driver_id"`
-//	DriverName      string `db:"driver_name"`
-//	DriverCountry   string `db:"driver_country"`
-//	DriverBirthDate string `db:"driver_birth_date"`
-//}
-
-//func RouteHandle(w http.ResponseWriter, r *http.Request) {
-//	params := "user=postgresql dbname=formula1 password=postgresql host=localhost port=1000 sslmode=disable"
-//	db, err := sqlx.Connect("postgresql", params)
-//	if err != nil {
-//		log.Fatal(err)
-//	}
-//
-//	driver := models.Driver{}
-//	err = db.Get(&driver, "select * from drivers where driver_id = 0")
-//	if err != nil {
-//		log.Fatalln(err)
-//	}
-//	fmt.Fprintf(w, "%#v", driver)
-//}
 
 func main() {
 	params := "user=postgres dbname=formula1 password=postgres host=localhost port=1000 sslmode=disable"
@@ -47,14 +46,33 @@ func main() {
 	defer db.Close()
 
 	driverRepo := driverRepository.NewPsqlDriverRepository(db)
+	teamRepo := teamRepository.NewPsqlTeamRepository(db)
+	trackRepo := trackRepository.NewPsqlTrackRepository(db)
+	gpRepo := grandPrixRepository.NewPsqlGPRepository(db)
+	raceRepo := raceRepository.NewPsqlRaceResultRepository(db)
+	qualRepo := qualRepository.NewPsqlQualResultRepository(db)
+	userRepo := userRepository.NewPsqlUserRepository(db)
 
-	driverUsecase := driverUsecase.NewDriverUsecase(driverRepo)
+	driverUcase := driverUsecase.NewDriverUsecase(driverRepo)
+	teamUcase := teamUsecase.NewTeamUsecase(teamRepo)
+	trackUcase := trackUsecase.NewTrackUsecase(trackRepo)
+	gpUcase := grandPrixUsecase.NewGrandPrixUsecase(gpRepo)
+	raceUcase := raceUsecase.NewRaceResultUsecase(raceRepo)
+	qualUcase := qualUsecase.NewQualResultUsecase(qualRepo)
+	userUcase := userUsecase.NewUserUsecase(userRepo)
 
 	m := mux.NewRouter()
 
-	driverHandler.NewDriverHandler(m, driverUsecase)
+	driverHandler.NewDriverHandler(m, driverUcase)
+	teamHandler.NewTeamHandler(m, teamUcase)
+	trackHandler.NewTrackHandler(m, trackUcase)
+	grandPrixHandler.NewDriverHandler(m, gpUcase, raceUcase, qualUcase)
+	raceHandler.NewRaceResultHandler(m, raceUcase)
+	qualHandler.NewQualResultHandler(m, qualUcase)
+	authHandler.NewAuthHandler(m, userUcase)
+	userHandler.NewUserHandler(m, userUcase)
 
-	mMiddleware := middleware.AccessLogMiddleware(m)
+	mMiddleware := middleware.LogMiddleware(m)
 
 	fmt.Println("starting server at :5259")
 	http.ListenAndServe(":5259", mMiddleware)
